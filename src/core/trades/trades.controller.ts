@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param } from '@nestjs/common';
 import { TradesService } from './trades.service';
-import { CreateTradeDto } from './dto/create-trade.dto';
-import { UpdateTradeDto } from './dto/update-trade.dto';
 
 @Controller('trades')
 export class TradesController {
   constructor(private readonly tradesService: TradesService) {}
 
-  @Post()
-  create(@Body() createTradeDto: CreateTradeDto) {
-    return this.tradesService.create(createTradeDto);
+  @Post('buy/:portfolioId/:stockSymbol')
+  async buyStock(
+    @Param('portfolioId') portfolioId: number,
+    @Param('stockSymbol') stockSymbol: string,
+    @Body('price') price: number,
+    @Body('quantity') quantity: number,
+  ): Promise<void> {
+    try {
+      await this.tradesService.buyStock(portfolioId, stockSymbol, price, quantity);
+      return;
+    } catch (error) {
+      // Hata durumlarını yönet
+      // Örneğin, hata durumlarına göre HTTP durum kodları döndürebilirsiniz.
+      throw error;
+    }
   }
 
-  @Get()
-  findAll() {
-    return this.tradesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tradesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTradeDto: UpdateTradeDto) {
-    return this.tradesService.update(+id, updateTradeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tradesService.remove(+id);
+  @Post('sell/:portfolioId/:stockSymbol')
+  async sellStock(
+    @Param('portfolioId') portfolioId: number,
+    @Param('stockSymbol') stockSymbol: string,
+    @Body('price') price: number,
+    @Body('quantity') quantity: number,
+  ): Promise<void> {
+    try {
+      await this.tradesService.sellStock(portfolioId, stockSymbol, price, quantity);
+      return;
+    } catch (error) {
+      // Hata durumlarını yönet
+      // Örneğin, hata durumlarına göre HTTP durum kodları döndürebilirsiniz.
+      throw error;
+    }
   }
 }

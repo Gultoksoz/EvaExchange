@@ -2,29 +2,31 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
+import { Stock } from './entities/stock.entity';
 
 @Controller('stocks')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Post()
-  create(@Body() createStockDto: CreateStockDto) {
-    return this.stocksService.create(createStockDto);
+  async create(@Body() createStockDto: CreateStockDto): Promise<Stock>  {
+    return await this.stocksService.createStock(createStockDto);
   }
 
-  @Get()
-  findAll() {
-    return this.stocksService.findAll();
+  
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() updateStockDto: UpdateStockDto): Promise<Stock> {
+    return await this.stocksService.updateStock(id, updateStockDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stocksService.findOne(+id);
+  async getStockById(@Param('id') id: number): Promise<Stock> {
+    return await this.stocksService.findStockById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
-    return this.stocksService.update(+id, updateStockDto);
+  @Get()
+  async getAllStocks(): Promise<Stock[]> {
+    return await this.stocksService.getAllStocks();
   }
 
   @Delete(':id')

@@ -12,9 +12,19 @@ export class Portfolio extends Model<Portfolio> {
   @BelongsTo(() => User, 'userId')
   user: User;
 
-  @HasMany(() => PortfolioStock, 'portfolioId')
+  // @Column({ type: 'varchar', unique: true, allowNull: false })
+  // symbol: string;
+
+  // @Column({ type: 'decimal', allowNull: false })
+  // amount: number;
+
+  @HasMany(() => PortfolioStock)
   portfolioStocks: PortfolioStock[];
 
-  @HasMany(() => Trade, 'portfolioId')
+  @HasMany(() => Trade)
   trades: Trade[];
 }
+
+
+
+  

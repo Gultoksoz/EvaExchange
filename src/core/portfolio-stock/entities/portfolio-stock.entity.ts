@@ -1,6 +1,6 @@
 // portfolio-stock.model.ts
 
-import { Table, Model, Column, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
+import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { Portfolio } from 'src/core/portfolios/entities/portfolio.entity';
 import { Stock } from 'src/core/stocks/entities/stock.entity';
 
@@ -10,16 +10,16 @@ export class PortfolioStock extends Model<PortfolioStock> {
   @Column
   portfolioId: number;
 
-  @Column({ type: 'integer', allowNull: false })
-  quantity: number;
-
-  @BelongsTo(() => Portfolio, 'portfolioId')
+  @BelongsTo(() => Portfolio)
   portfolio: Portfolio;
 
   @ForeignKey(() => Stock)
   @Column
   stockId: number;
 
-  @BelongsTo(() => Stock, 'stockId')
+  @BelongsTo(() => Stock)
   stock: Stock;
+
+  @Column
+  quantity: number; 
 }

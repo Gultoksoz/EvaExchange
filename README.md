@@ -39,6 +39,7 @@ $ npm install
 $ npm run start
 
 # watch mode
+$ docker-compose up --build
 $ npm run start:dev
 
 # production mode

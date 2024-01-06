@@ -28,7 +28,7 @@ export class Trade extends Model<Trade> {
   portfolioStock: PortfolioStock;
 
   @Column
-  type: 'BUY' | 'SELL';
+  type: string;
 
   @Column
   price: number;

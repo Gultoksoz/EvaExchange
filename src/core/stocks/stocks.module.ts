@@ -9,9 +9,9 @@ import { SeedStock } from './stocks.seeder';
 @Module({
   imports: [
     SequelizeModule.forFeature([Stock]),
-    SeederModule.forFeature([SeedStock])
   ],
   controllers: [StocksController],
-  providers: [StocksService],
+  providers: [StocksService, SeedStock],
+  exports: [StocksService, SeedStock]
 })
 export class StocksModule {}

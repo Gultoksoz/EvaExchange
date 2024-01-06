@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PortfolioStockService } from './portfolio-stock.service';
+import { PortfolioStockService } from './portfolioStocks.service';
 
 @Controller('portfolio-stock')
 export class PortfolioStockController {

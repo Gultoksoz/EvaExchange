@@ -1,22 +1,22 @@
-import { BelongsTo, Column, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
-import { PortfolioStock } from 'src/core/portfolio-stock/entities/portfolio-stock.entity';
+import { AutoIncrement, BelongsTo, Column, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { PortfolioStock } from 'src/core/portfolioStocks/entities/portfolioStocks.entity';
 import { Trade } from 'src/core/trades/entities/trade.entity';
 import { User } from 'src/core/users/entities/user.entity';
 
 @Table
 export class Portfolio extends Model<Portfolio> {
+
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id: number;
+
   @ForeignKey(() => User)
   @Column
   userId: number;
 
   @BelongsTo(() => User, 'userId')
   user: User;
-
-  // @Column({ type: 'varchar', unique: true, allowNull: false })
-  // symbol: string;
-
-  // @Column({ type: 'decimal', allowNull: false })
-  // amount: number;
 
   @HasMany(() => PortfolioStock)
   portfolioStocks: PortfolioStock[];

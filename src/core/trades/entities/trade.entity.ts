@@ -1,24 +1,30 @@
 // trade.model.ts
 
-import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { PortfolioStock } from 'src/core/portfolio-stock/entities/portfolio-stock.entity';
+import { AutoIncrement, BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { PortfolioStock } from 'src/core/portfolioStocks/entities/portfolioStocks.entity';
 import { Portfolio } from 'src/core/portfolios/entities/portfolio.entity';
 import { Stock } from 'src/core/stocks/entities/stock.entity';
 
 @Table
 export class Trade extends Model<Trade> {
-  // @ForeignKey(() => Portfolio)
-  // @Column
-  // portfolioId: number;
 
-  // @BelongsTo(() => Portfolio, 'portfolioId')
-  // portfolio: Portfolio;
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id: number;
+
+  @ForeignKey(() => Portfolio)
+  @Column
+  portfolioId: number;
+
+  @BelongsTo(() => Portfolio, 'portfolioId')
+  portfolio: Portfolio;
 
   @ForeignKey(() => PortfolioStock)
   @Column
   portfolioStockId: number;
   
-  @BelongsTo(() => PortfolioStock)
+  @BelongsTo(() => PortfolioStock, 'portfolioStockId')
   portfolioStock: PortfolioStock;
 
   @Column
@@ -30,10 +36,7 @@ export class Trade extends Model<Trade> {
   @Column
   quantity: number;
 
-  @ForeignKey(() => Portfolio)
-  @Column
-  symbol: string;
-
+ 
   @ForeignKey(() => Stock) // Yeni ekledik
   @Column
   stockId: number; // Yeni ekledik
@@ -42,5 +45,3 @@ export class Trade extends Model<Trade> {
   stock: Stock; // Yeni ekledik
 }
   
-
-

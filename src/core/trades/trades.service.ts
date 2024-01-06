@@ -1,10 +1,10 @@
 
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PortfolioStock } from 'src/core/portfolio-stock/entities/portfolio-stock.entity';
+import { PortfolioStock } from 'src/core/portfolioStocks/entities/portfolioStocks.entity';
 import { Trade } from 'src/core/trades/entities/trade.entity';
 import { Stock } from 'src/core/stocks/entities/stock.entity';
-import { PortfolioStockService } from '../portfolio-stock/portfolio-stock.service';
+import { PortfolioStockService } from '../portfolioStocks/portfolioStocks.service';
 
 @Injectable()
 export class TradesService {
@@ -50,7 +50,6 @@ export class TradesService {
   }
 
   async sellStock(portfolioId: number, stockSymbol: string, price: number, quantity: number): Promise<void> {
-    // Kontrolleri yapın (örneğin, portföyde yeterli stok var mı?)
     const portfolioStock = await this.portfolioService.getPortfolioStock(portfolioId, stockSymbol);
 
     if (portfolioStock) {

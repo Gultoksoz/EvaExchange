@@ -1,35 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { Seeder } from 'nestjs-seeder';
-import { InjectModel } from '@nestjs/sequelize';
-import { Stock } from './entities/stock.entity';
-
+import { Injectable, Logger } from '@nestjs/common';
+import { Stock } from 'src/core/stocks/entities/stock.entity';
 
 @Injectable()
-export class SeedStock implements Seeder {
-   constructor(
-      @InjectModel(Stock)
-      private readonly stockModel: typeof Stock,
-    ) {}
+export class StockSeederService {
+  private readonly logger = new Logger(StockSeederService.name);
 
-  async seed(): Promise<any> {
-    const stockData = [
-      {
-         symbol: 'MEO',
-         price:10,
+  constructor() {}
 
-       },
-       {
-         symbol: 'ETH',
-         price:10,
-       },
-       
+  async seed() {
+    const stocks = [
+      { symbol: 'APL', price: 150.00 },
+      { symbol: 'MSF', price: 200.00 },
     ];
-    return this.stockModel.bulkCreate(stockData);
-  }
 
-  async drop(): Promise<any> {
-    return this.stockModel.drop();
+    for (const stockData of stocks) {
+      await Stock.create(stockData);
+    }
+
+    this.logger.log('Stocks seeded!');
   }
 }
-
-

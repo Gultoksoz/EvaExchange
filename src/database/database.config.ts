@@ -18,4 +18,5 @@ export const sequelizeConfig: SequelizeModuleOptions = {
   database: POSTGRES_DB,
   autoLoadModels: true,
   synchronize: true,
+  logging:false,
 };

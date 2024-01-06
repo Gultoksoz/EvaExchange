@@ -1,33 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { Seeder } from 'nestjs-seeder';
-import { InjectModel } from '@nestjs/sequelize';
-import { User } from './entities/user.entity';
-
+import { Injectable, Logger } from '@nestjs/common';
+import { User } from 'src/core/users/entities/user.entity';
 
 @Injectable()
-export class SeedUser implements Seeder {
-   constructor(
-      @InjectModel(User)
-      private readonly  userModel: typeof User,
-    ) {}
+export class UserSeederService {
+  private logger = new Logger(UserSeederService.name)
+  constructor() {}
 
-  async seed(): Promise<any> {
-    const userData = [
-      {
-         username: 'max',
-         password: 'max_password',
-      },
-      {
-         username: 'edy',
-         password: 'edy_password',
-      },
+  async seed() {
+    const users = [
+      { username: 'user1', password: 'pass1', balance: 100.00 },
     ];
-    return this.userModel.bulkCreate(userData);
-  }
 
-  async drop(): Promise<any> {
-    return this.userModel.drop();
+    for (const userData of users) {
+      await User.create(userData);
+    }
+    this.logger.log('Users seeded!')
   }
 }
-
-

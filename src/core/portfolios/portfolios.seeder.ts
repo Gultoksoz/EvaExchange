@@ -1,31 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { Seeder } from 'nestjs-seeder';
-import { Portfolio } from './entities/portfolio.entity';
-import { InjectModel } from '@nestjs/sequelize';
-
+import { Injectable, Logger } from '@nestjs/common';
+import { Portfolio } from 'src/core/portfolios/entities/portfolio.entity';
 
 @Injectable()
-export class PortfolioSeeder implements Seeder {
-   constructor(
-      @InjectModel(Portfolio)
-      private readonly portfolioModel: typeof Portfolio,
-    ) {}
+export class PortfolioSeederService {
+  private readonly logger = new Logger(PortfolioSeederService.name);
 
-  async seed(): Promise<any> {
-    const portfolioData = [
-      {
-         userId: 1
-      },
-      {
-         userId: 2
-      },
+  constructor() {}
+
+  async seed() {
+
+    const portfolios = [
+      { userId: 1 },
     ];
-    return this.portfolioModel.bulkCreate(portfolioData);
-  }
 
-  async drop(): Promise<any> {
-    return this.portfolioModel.drop();
+    for (const portfolioData of portfolios) {
+      await Portfolio.create(portfolioData);
+    }
+
+    this.logger.log('Portfolios seeded!');
   }
 }
-
-
